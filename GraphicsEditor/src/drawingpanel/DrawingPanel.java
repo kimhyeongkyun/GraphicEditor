@@ -17,11 +17,17 @@ public class DrawingPanel extends JPanel {
 	private MouseHandler mouseHandler;
 	private Shape currentTool;
 
+	private enum EActionState {
+		eReady, eCMC, ePDR
+	};
+	private EActionState eActionState;
+
 	public void setCurrentTool(EToolBar currentTool) {
 		this.currentTool = currentTool.getShape();
 	}
 
 	public DrawingPanel() {
+		this.eActionState = EActionState.eReady;
 		this.setBackground(Color.white);
 		this.mouseHandler = new MouseHandler();
 		this.addMouseListener(this.mouseHandler); // 버튼이벤트
@@ -59,26 +65,58 @@ public class DrawingPanel extends JPanel {
 	private class MouseHandler implements MouseListener, MouseMotionListener {
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			if(event.getClickCount() == 1) {
+			if (event.getClickCount() == 1) {
+				mouse1Clicked(event);
+//				initDrawing(event.getX(), event.getY());
+			} else if (event.getClickCount() == 2) {
+				mouse2Clicked(event);
+//				finishDrawing(event.getX(), event.getY());
+			}
+		}
+
+
+		private void mouse1Clicked(MouseEvent event) {
+			if (eActionState == EActionState.eReady) {
 				initDrawing(event.getX(), event.getY());
-			}else if(event.getClickCount() == 2) {
+				eActionState = EActionState.eCMC;
+			} else if(eActionState == EActionState.eCMC){
 				finishDrawing(event.getX(), event.getY());
+				eActionState = EActionState.eReady;
+			}
+		}
+
+		private void mouse2Clicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent event) {
+			if (eActionState == EActionState.eCMC) {
+				keepDrawing(event.getX(), event.getY());
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent event) {
-			initDrawing(event.getX(), event.getY());
+			if (eActionState == EActionState.eReady) {
+				initDrawing(event.getX(), event.getY());
+				eActionState = EActionState.ePDR;
+			}
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
-			finishDrawing(event.getX(), event.getY());
+			if (eActionState == EActionState.ePDR) {
+				initDrawing(event.getX(), event.getY());
+				eActionState = EActionState.eReady;
+			}
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent event) {
-			keepDrawing(event.getX(), event.getY());
+			if (eActionState == EActionState.ePDR) {
+				keepDrawing(event.getX(), event.getY());
+			}
 		}
 
 		@Override
@@ -89,9 +127,5 @@ public class DrawingPanel extends JPanel {
 		public void mouseExited(MouseEvent event) {
 		}
 
-		@Override
-		public void mouseMoved(MouseEvent event) {
-			keepDrawing(event.getX(), event.getY());
-		}
 	}
 }
