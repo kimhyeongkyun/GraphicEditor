@@ -3,6 +3,7 @@ package global;
 //import shape.Ellipse;
 //import shape.Line;
 import shape.Rectangle;
+import shape.Polygon;
 import shape.Select;
 import shape.Shape;
 
@@ -26,6 +27,7 @@ public class Constants {
 		rectangle("Rectangle", new Rectangle()),
 //		ellipse("Ellipse", new Ellipse()),
 //		line("Line", new Line())
+		polygon("Polygon", new Polygon())
 		;
 		private String text;
 		private Shape shape;
