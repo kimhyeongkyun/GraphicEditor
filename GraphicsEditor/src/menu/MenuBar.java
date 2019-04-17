@@ -21,6 +21,9 @@ public class MenuBar extends JMenuBar {
 		this.add(this.fileMenu);
 //		this.editMenu = new EditMenu(EMenu.editMenu.getText());
 //		this.add(this.editMenu);
+	}
+	public void initialize() {
+		this.fileMenu.initialize();
 	}	
 
 }	

@@ -13,4 +13,7 @@ public class FileMenu extends JMenu {
 		this.newItem = new JMenuItem(EFileMenu.newItem.getText());
 		this.add(this.newItem);
 	}
+	public void initialize() {
+		
+	}
 }

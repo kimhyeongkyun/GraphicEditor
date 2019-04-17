@@ -6,17 +6,17 @@ import javax.swing.JFrame;
 import drawingpanel.DrawingPanel;
 import global.Constants.EMainFrame;
 import menu.MenuBar;
-import toolbar.ToolBar;
+import toolbar.GEToolBar;
 
-public class MainFrame extends JFrame{
+public class GEMainFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	// components - mainframe이 이 자식들을 new한다.
 	private MenuBar menuBar;
-	private ToolBar toolBar;
+	private GEToolBar toolBar;
 	private DrawingPanel drawingPanel;
 	
-	public MainFrame(){
+	public GEMainFrame(){
 		//attributes 속성 값
 		this.setLocation(EMainFrame.x.getValue(), EMainFrame.y.getValue());
 		this.setSize(EMainFrame.w.getValue(), EMainFrame.h.getValue());
@@ -28,7 +28,7 @@ public class MainFrame extends JFrame{
 		this.menuBar = new MenuBar();
 		this.setJMenuBar(this.menuBar);
 		
-		this.toolBar = new ToolBar();
+		this.toolBar = new GEToolBar();
 		this.add(this.toolBar, BorderLayout.NORTH);
 		
 		this.drawingPanel = new DrawingPanel();
@@ -37,5 +37,11 @@ public class MainFrame extends JFrame{
 		//association 자식과 자식사이에 연결을 해줌
 		this.menuBar.associate(this.drawingPanel);
 		this.toolBar.associate(this.drawingPanel);
+	}
+
+	public void initialize() {
+		this.menuBar.initialize();
+		this.toolBar.initialize();
+		this.drawingPanel.initialize();
 	}
 }
